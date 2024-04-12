@@ -1,7 +1,7 @@
 basedonnees="\n# ##> BASE DE DONNÉES \/\/ ADMINER ET mariadb\n  adminer:\n    platform: linux\/x86_64\n    container_name: adminer_\${NAME}_\${ADMINER_VERSION}\n    image: adminer:\${ADMINER_VERSION}\n    restart: unless-stopped\n    ports:\n      - \${ADMINER_LOCALHOST_PORT}:\${ADMINER_DOCKER_PORT}\n    env_file:\n      - .env\n    depends_on:\n      - database\n\n\n###> doctrine\/doctrine-bundle ###\n  database:\n    platform: linux\/x86_64\n    container_name: mariadb_\${NAME}_\${MARIADB_VERSION}\n    image: mariadb:\${MARIADB_VERSION}\n    restart: unless-stopped\n    env_file:\n      - .env\n    volumes:\n      - ..\/\${FOLDER_DATASQL}:\/docker-entrypoint-initdb.d\/\n      - ..\/\${FOLDER_DATABASE}:\/var\/lib\/mysql\n    ports:\n      - \${SQL_LOCALHOST_PORT}:\${SQL_DOCKER_PORT}\n###< doctrine\/doctrine-bundle ###\n# ##< BASE DE DONNÉES \/\/ ADMINER ET mariadb\n "
 
 sed -i "s/image: \${IMAGES_PREFIX:-}app-php/image: backend_\${NAME}:\${BACKEND_VERSION}/g" $file_rel_compose
-sed -i "/image: backend_\${NAME}:\${BACKEND_VERSION}/a \    container_name: backend_\${NAME}" $file_rel_compose
+sed -i "/image: backend_\${NAME}:\${BACKEND_VERSION}/a \    container_name: backend_\${NAME}:\${BACKEND_VERSION}" $file_rel_compose
 sed -i "s/HTTP_PORT/HTTP_LOCALHOST_PORT/g" $file_rel_compose
 sed -i "s/HTTPS_PORT/HTTPS_LOCALHOST_PORT/g" $file_rel_compose
 sed -i "s/HTTP3_PORT/HTTP3_LOCALHOST_PORT/g" $file_rel_compose
