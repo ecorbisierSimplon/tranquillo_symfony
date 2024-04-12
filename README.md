@@ -1,51 +1,74 @@
-# Symfony Docker
+# INSTALLATION DE TRANQUILLO©
 
-A [Docker](https://www.docker.com/)-based installer and runtime for the [Symfony](https://symfony.com) web framework,
-with [FrankenPHP](https://frankenphp.dev) and [Caddy](https://caddyserver.com/) inside!
+## BASE DE DONNÉES
 
-![CI](https://github.com/dunglas/symfony-docker/workflows/CI/badge.svg)
+Enregistrer vos fichier sql dans database/sql
+La base de donnée est sauvegarder en locale dans database/tranquillo_sql mais n'est pas incluse dans le dépot git.
 
-## Getting Started
+<!-- TOC -->
 
-1. If not already done, [install Docker Compose](https://docs.docker.com/compose/install/) (v2.10+)
-2. Run `docker compose build --no-cache` to build fresh images
-3. Run `docker compose up --pull always -d --wait` to start the project
-4. Open `https://localhost` in your favorite web browser and [accept the auto-generated TLS certificate](https://stackoverflow.com/a/15076602/1352334)
-5. Run `docker compose down --remove-orphans` to stop the Docker containers.
+- [INSTALLATION DE TRANQUILLO©](#installation-de-tranquillo)
+  - [BASE DE DONNÉES](#base-de-données)
+    - [Projet inital](#projet-inital)
+    - [Initialsation du projet](#initialsation-du-projet)
+    - [Création 1ère page](#création-1ère-page)
+      - [COMMANDES UTILES](#commandes-utiles)
+  - [FRONTEND](#frontend)
 
-## Features
+<!-- /TOC -->
 
-* Production, development and CI ready
-* Just 1 service by default
-* Blazing-fast performance thanks to [the worker mode of FrankenPHP](https://github.com/dunglas/frankenphp/blob/main/docs/worker.md) (automatically enabled in prod mode)
-* [Installation of extra Docker Compose services](docs/extra-services.md) with Symfony Flex
-* Automatic HTTPS (in dev and prod)
-* HTTP/3 and [Early Hints](https://symfony.com/blog/new-in-symfony-6-3-early-hints) support
-* Real-time messaging thanks to a built-in [Mercure hub](https://symfony.com/doc/current/mercure.html)
-* [Vulcain](https://vulcain.rocks) support
-* Native [XDebug](docs/xdebug.md) integration
-* Super-readable configuration
+### Projet inital
 
-**Enjoy!**
+[projet de Dunglas symfony-docker github](https://github.com/dunglas/symfony-docker/)
 
-## Docs
+---
 
-1. [Build options](docs/build.md)
-2. [Using Symfony Docker with an existing project](docs/existing-project.md)
-3. [Support for extra services](docs/extra-services.md)
-4. [Deploying in production](docs/production.md)
-5. [Debugging with Xdebug](docs/xdebug.md)
-6. [TLS Certificates](docs/tls.md)
-7. [Using MySQL instead of PostgreSQL](docs/mysql.md)
-8. [Using Alpine Linux instead of Debian](docs/alpine.md)
-9. [Using a Makefile](docs/makefile.md)
-10. [Updating the template](docs/updating.md)
-11. [Troubleshooting](docs/troubleshooting.md)
+### Initialsation du projet
 
-## License
+Avec le terminal, excuter les commande suivantes à la racine de "tranquillo©":
 
-Symfony Docker is available under the MIT License.
+**Pour la 1ère installation, exécutez :**
 
-## Credits
+```bash
+chmod +x ./install.sh && ./install.sh
+```
 
-Created by [Kévin Dunglas](https://dunglas.dev), co-maintained by [Maxime Helias](https://twitter.com/maxhelias) and sponsored by [Les-Tilleuls.coop](https://les-tilleuls.coop).
+**Pour les mise à jour ou reconstruction utilisez back.sh**
+_Vous pouvez effacer le dossier de la base de donnée_
+_(cela ne supprime pas le dossier sql)_
+
+```bash
+chmod +x ./back.sh && ./back.sh
+```
+
+Une fois l'installation terminée, [vous pouvez lancer symfony avec https://localhost:443 en cliquant sur ce lien.](https://localhost:443)
+
+**<span style="color:red">N'utilisez pas les liens Docker pour symfony <br>(un paramètre fausse les liens dans docker).</span>**
+
+---
+
+### Création 1ère page
+
+[Tuto symfony](https://symfony.com/doc/current/page_creation.html)
+
+---
+
+#### COMMANDES UTILES
+
+- **Ajout d'un controller :**
+
+Remplacer <name> par le nom de votre controller
+
+```bash
+php bin/console make:controller <name>Controller
+```
+
+---
+
+- **Lister les routes :**
+
+```bash
+php bin/console debug:router
+```
+
+## FRONTEND
