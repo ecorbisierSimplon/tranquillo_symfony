@@ -29,3 +29,4 @@ docker compose up --pull always -d --wait
 docker-compose up --force-recreate -d
 echo " ** compose up effectuée **"
 echo
+pause s 2 m

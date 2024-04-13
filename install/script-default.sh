@@ -1,22 +1,21 @@
 #!/bin/bash
 
 # Vérifier si le fichier .env n'existe pas
-if [ ! -f "$file_rel_env" ]; then
-    echo -e "'\e[1m Écrire le contenu par défaut dans le fichier .env\e[0m'"
-    echo "---------------------------------------------------"
-    pause s 1 m
-    # Écrire le contenu par défaut dans le fichier .env
-    source "$layout/script-env.sh"
-    echo "** Fichier .env est prêt **"
-    echo
-fi
+
+echo -e "'\e[1m Écrire le contenu par défaut dans le fichier .env\e[0m'"
+echo "---------------------------------------------------"
+pause s 1 m
+# Écrire le contenu par défaut dans le fichier .env
+source "$layout/script-env.sh"
+echo "** Fichier .env est prêt **"
+echo
 
 echo -e "'\e[1m Mise à jour du n° de version \e[0m'"
 echo "---------------------------------------------------"
 pause s 1 m
 # Extraire le numéro de version actuel
 if [[ "$current_version" == "" ]]; then
-    echo "BACKEND_VERSION=$version_default" >>"$file_rel_env"
+    current_version=$version_default
 fi
 
 # Séparer le numéro de version en parties (major, minor, patch)

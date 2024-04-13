@@ -1,15 +1,14 @@
--- Active: 1712355755551@@localhost@3306@tranquillo
 INSERT INTO
     `tpa_users` (
         `email`,
         `lastname`,
         `firstname`,
         `user_password`,
-        `roles_code`
+        `roles_id`
     )
 VALUES
     (
-        'emploi@corbisier.fr',
+        'ecorbisier.simplon@gmail.com',
         'CORBISIER',
         'Eric',
         '1234',

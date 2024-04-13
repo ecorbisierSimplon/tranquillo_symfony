@@ -55,7 +55,7 @@ fi
 
 # add line docker-desktop in bashrc
 title_bashal="# ALIAS DOKER"
-line_bashal='alias docker-desktop="/opt/docker-desktop/bin/docker-desktop"'
+line_bashal='docker-desktop() {\n\    \/opt\/docker-desktop\/bin\/docker-desktop\n}'
 test=$(grep "$title_bashal" "$file_rel_bashal")
 if [[ -z "$test" ]]; then
     echo "Création du fichier $file_rel_bashal"

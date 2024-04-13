@@ -1,8 +1,11 @@
 #!/bin/bash
 
 version_default="1.0.00"
+version_symfony="7.0.*"
 version_mariadb="11.3.2"
 version_adminer="4.8.1"
+
+port_symfony=8088
 
 name="tranquillo"
 basedb="mariabd"
@@ -12,8 +15,6 @@ user=$LOGNAME
 myfolder=$PWD
 home=~
 layout="$PWD/install"
-
-current_version="1.0.00"
 
 # Vérifier si le fichier .env n'existe pas
 file_env=".env"
