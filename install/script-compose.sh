@@ -1,29 +1,70 @@
-basedonnees="\n# ##> BASE DE DONNÉES \/\/ ADMINER ET mariadb\n  adminer:\n    platform: linux\/x86_64\n    container_name: adminer_\${NAME}_\${ADMINER_VERSION}\n    image: adminer:\${ADMINER_VERSION}\n    restart: unless-stopped\n    ports:\n      - \${ADMINER_LOCALHOST_PORT}:\${ADMINER_DOCKER_PORT}\n    env_file:\n      - .env\n    depends_on:\n      - database\n\n\n###> doctrine\/doctrine-bundle ###\n  database:\n    platform: linux\/x86_64\n    container_name: mariadb_\${NAME}_\${MARIADB_VERSION}\n    image: mariadb:\${MARIADB_VERSION}\n    restart: unless-stopped\n    env_file:\n      - .env\n    volumes:\n      - ..\/\${FOLDER_DATASQL}:\/docker-entrypoint-initdb.d\/\n      - ..\/\${FOLDER_DATABASE}:\/var\/lib\/mysql\n    ports:\n      - \${SQL_LOCALHOST_PORT}:\${SQL_DOCKER_PORT}\n###< doctrine\/doctrine-bundle ###\n# ##< BASE DE DONNÉES \/\/ ADMINER ET mariadb\n "
+cat >"$file_rel_compose" <<EOF
+version: '3.8'
 
-sed -i "s/image: \${IMAGES_PREFIX:-}app-php/image: backend_\${NAME}:\${BACKEND_VERSION}/g" $file_rel_compose
-sed -i "/image: backend_\${NAME}:\${BACKEND_VERSION}/a \    container_name: backend_\${NAME}:\${BACKEND_VERSION}" $file_rel_compose
-sed -i "s/HTTP_PORT/HTTP_LOCALHOST_PORT/g" $file_rel_compose
-sed -i "s/HTTPS_PORT/HTTPS_LOCALHOST_PORT/g" $file_rel_compose
-sed -i "s/HTTP3_PORT/HTTP3_LOCALHOST_PORT/g" $file_rel_compose
-sed -i '/^ *ports: *$/,/^ *# HTTP *$/ s/^ *ports: *$/\    env_file:\n      - .env\n&/' $file_rel_compose
-sed -i "s/- target: 80/- target: \${HTTP_DOCKER_PORT:-80}/g" $file_rel_compose
-sed -i '/# HTTPS/{n; s/^ *- target: 443 *$/\      - target: ${HTTPS_DOCKER_PORT:-443}/}' $file_rel_compose
-sed -i '/# HTTP\/3/{n; s/^ *- target: 443 *$/\      - target: ${HTTP3_DOCKER_PORT:-443}/}' $file_rel_compose
-sed -i "0,/^$/ s/^$/${basedonnees}\n/" $file_rel_compose
-sed -i "/\  caddy_config:/a \ \n###> doctrine/doctrine-bundle ###\n\  ${name}_mariadb:\n###< doctrine/doctrine-bundle ###\n" $file_rel_compose
-sed -i "/\        protocol: udp/a \    depends_on:\n\      - database" $file_rel_compose
+services:
+# ##> BASE DE DONNÉES // ADMINER ET mariadb
+  adminer:
+    platform: linux/x86_64
+    container_name: adminer_\${NAME}_\${ADMINER_VERSION}
+    image: adminer:\${ADMINER_VERSION}
+    restart: unless-stopped
+    ports:
+      - \${ADMINER_LOCALHOST_PORT}:\${ADMINER_DOCKER_PORT}
+    env_file:
+      - .env
+    depends_on:
+      - database
 
-line="     DATABASE_URL: postgresql:\/\/\${POSTGRES_USER:-app}:\${POSTGRES_PASSWORD:-!ChangeMe!}@database:5432\/\${POSTGRES_DB:-app}?serverVersion=\${POSTGRES_VERSION:-15}&charset=\${POSTGRES_CHARSET:-utf8}"
 
-# escaped_line=$(sed 's/[[\.*^$/]/\\&/g' <<< "$line"
-sed -i "/$line/d" $file_rel_compose
+###> doctrine/doctrine-bundle ###
+  database:
+    platform: linux/x86_64
+    container_name: mariadb_\${NAME}_\${MARIADB_VERSION}
+    image: mariadb:\${MARIADB_VERSION}
+    restart: unless-stopped
+    env_file:
+      - .env
+    volumes:
+      - ../\${FOLDER_DATASQL}:/docker-entrypoint-initdb.d/
+      - ../\${FOLDER_DATABASE}:/var/lib/mysql:rw
+    ports:
+      - \${SQL_LOCALHOST_PORT}:\${SQL_DOCKER_PORT}
+###< doctrine/doctrine-bundle ###
+# ##< BASE DE DONNÉES // ADMINER ET mariadb
 
-# file_rel_compose_o
-sed -i '/\    tty: true/a \ \n\n###> doctrine\/doctrine-bundle ###\n\  database:\n    env_file:\n      - .env\n\    ports:\n\      - \${SQL_LOCALHOST_PORT}:${SQL_DOCKER_PORT}\n###< doctrine\/doctrine-bundle ###\n' $file_rel_compose_o
 
-pause s 5 m
+volumes:
+###> doctrine/doctrine-bundle ###
+  database:
+###< doctrine/doctrine-bundle ###
+ 
+EOF
 
-# sed -i 's/RUN install-php-extensions pdo_pgsql/RUN install-php-extensions pdo_mysql/g' $file_rel_dockerfile
-sed -i '/###> recipes ###/a \\n###> doctrine\/doctrine-bundle ###\nRUN install-php-extensions pdo_mysql\n###< doctrine\/doctrine-bundle ### \n' $file_rel_dockerfile
+cat >"$file_rel_compose_o" <<EOF
+version: '3.8'
+
+services:
+###> doctrine/doctrine-bundle ###
+  database:
+    env_file:
+      - .env
+    ports:
+      - \${SQL_LOCALHOST_PORT}:\${SQL_DOCKER_PORT}
+###< doctrine/doctrine-bundle ###
+
+
+###> symfony/mailer ###
+  mailer:
+    container_name: MAILPIT_\${NAME}
+    image: axllent/mailpit
+    ports:
+      - \${MAILER_LOCALHOST_SMTP_PORT}:\${MAILER_DOCKER_SMTP_PORT}
+      - \${MAILER_LOCALHOST_HTML_PORT}:\${MAILER_DOCKER_HTML_PORT}
+    environment:
+      MP_SMTP_AUTH_ACCEPT_ANY: 1
+      MP_SMTP_AUTH_ALLOW_INSECURE: 1
+###< symfony/mailer ###
+
+EOF
 
 pause s 5

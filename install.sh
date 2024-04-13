@@ -12,19 +12,17 @@ source "$layout/script-init.sh"
 echo "Menu :"
 echo "-------------------------------"
 echo
-echo -e "\e[31m\e[1m[c]\e[0m - Create build (default)"
-echo -e "\e[31m\e[1m[r]\e[0m - Recreate containers (compose up)"
-echo -e "\e[31m\e[1m[d]\e[0m - Recreate containers (compose up) with delete and recreate database"
-echo -e "\e[31m\e[1m[i]\e[0m - New install (delete all images and recreate build)"
-echo -e "\e[31m\e[1m[b]\e[0m - Rebuild (delete old images and recreate build)"
-echo -e "\e[31m\e[1m[q]\e[0m - Quitter"
+# echo -e "\e[31m\e[1m[c]\e[0m - Create build"
+# echo -e "\e[31m\e[1m[r]\e[0m - Recreate containers (compose up)"
+# echo -e "\e[31m\e[1m[d]\e[0m - Recreate containers (compose up) with delete and recreate database"
+echo -e "\e[31m\e[1m[i]\e[0m - New install (delete all and recreate all)"
+# echo -e "\e[31m\e[1m[b]\e[0m - Rebuild (delete old images and recreate build)"
+# echo -e "\e[31m\e[1m[l]\e[0m - Lancer les serveurs"
+echo -e "\e[31m\e[1m[q]\e[0m - Quitter (default)"
 read -n 1 -rp " > " val
 line -t ""
 #
-if [[ "${val^^}" == "Q" ]]; then
-    clear
-    exit 1
-fi
+
 pause s 1 m
 
 if [[ ${val^^} == "I" ]]; then
@@ -42,9 +40,12 @@ elif [[ ${val^^} == "D" ]]; then
 elif [[ ${val^^} == "B" ]]; then
     echo "Rebuild :"
     echo "----------"
-else
+elif [[ ${val^^} == "C" ]]; then
     echo "Create Build :"
     echo "-------------"
+else
+    clear
+    exit 1
 fi
 
 if [ -d "$folder_rel_data" ]; then
@@ -88,8 +89,11 @@ elif [[ ${val^^} == "D" ]]; then
 elif [[ ${val^^} == "B" ]]; then
     source "$layout/rebuild.sh"
 
-else
+elif [[ ${val^^} == "C" ]]; then
     source "$layout/buildnews.sh"
+
+else
+    exit 1
 
 fi
 pause s 1 m
@@ -113,17 +117,21 @@ echo "** Images nettoyées **"
 echo
 
 docker-desktop
+pause s 10 m
 
-echo
-echo "---------------------------------"
-echo "Veux tu ouvrir le site ? "
-echo -e "\e[31m\e[1m[y]\e[0mes / \e[31m\e[1m[n]\e[0mo > "
-read -n 1 -rp " > " val
-line -t ""
-if [[ "${val^^}" == "Y" ]]; then
-    URL "https://localhost:443"
-fi
+# echo
+# echo "---------------------------------"
+# echo "Veux tu ouvrir le site ? "
+# echo -e "\e[31m\e[1m[y]\e[0mes / \e[31m\e[1m[n]\e[0mo > "
+# read -n 1 -rp " > " val
+# line -t ""
+# if [[ "${val^^}" == "Y" ]]; then
+#     URL "http://localhost:$port_symfony"
+# fi
 echo
 echo -e ' Lien pour ouvrir symfony (CTRL + clic): '
-echo -e "\e[1m\e[34mhttps://localhost:443\e[0m"
+echo -e "\e[1m\e[34mhttp://localhost:$port_symfony\e[0m"
 echo
+
+php -S localhost:$port_symfony -t public
+pause s 10 m

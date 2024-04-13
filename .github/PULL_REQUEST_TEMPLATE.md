@@ -19,6 +19,18 @@
      approbation manuelle.
 -->
 
+# TEMPLATE PULL REQUEST
+
+## ❗ _Si vous avez un 📜 ticket :_
+
+> [!TIP]
+>
+> Pour les pull requests liées à un ticket et/ou pour les cloturer,
+> veuillez noter le n° du ticket après le # ci-dessous.
+
+- Related Issue #
+- Closes #
+
 ## ✔️ Quel type de PR est-ce ? (cochez tout ce qui s'applique)
 
 - [ ] ⚒️ Refactorisation
@@ -41,15 +53,6 @@
 - [ ] 📋 J'ai correctement rempli le modèle de PR.
 - [ ] ✅ J'ai examiné mes modifications moi-même.
 - [ ] 👉 J'ai vérifié manuellement mon changement.
-
-### ❗ _Si vous avez un 📜 ticket :_
-
-> [!TIP]
->
-> Pour les pull requests liées à un ticket ou les fermant, veuillez le n° du ticket après le # ci-dessous.
-
-- Related Issue #
-- Closes #
 
 ---
 
