@@ -1,5 +1,5 @@
 #!/bin/bash
-# Exectute > chmod +x ./play_back.sh && ./play_back.sh
+# Exectute > chmod +x ./play_symf.sh && ./play_symf.sh
 clear
 
 layout="$PWD/install"
@@ -14,7 +14,7 @@ if [ -d "$folder_rel_serveur" ]; then
     echo
 
     php -S localhost:$port_symfony -t public
-    pause s 10 m
+    pause s 2 m
 else
     chmod +x ./install.sh && ./install.sh
 fi
