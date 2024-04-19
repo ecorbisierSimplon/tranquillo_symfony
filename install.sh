@@ -119,22 +119,21 @@ if [[ ! ${val^^} == "L" ]]; then
     docker-desktop
     pause s 2 m
 
-    echo
-    echo "---------------------------------"
-    echo "Veux tu ouvrir le site ? "
-    echo -e "\e[31m\e[1m[y]\e[0mes / \e[31m\e[1m[n]\e[0mo > "
-    read -n 1 -rp " > " val
-    line -t ""
-    if [[ "${val^^}" == "Y" ]]; then
-        URL "http://localhost:$port_symfony"
-    fi
-else
-    URL "http://localhost:$port_symfony"
 fi
 echo
 echo -e ' Lien pour ouvrir symfony (CTRL + clic): '
 echo -e "\e[1m\e[34mhttp://localhost:$port_symfony\e[0m"
 echo
 
-# php -S localhost:$port_symfony -t public
+echo
+echo "---------------------------------"
+echo "Veux tu lancer le serveur symfony ? "
+echo -e "\e[31m\e[1m[y]\e[0mes / \e[31m\e[1m[n]\e[0mo > "
+read -n 1 -rp " > " val
+line -t ""
+if [[ "${val^^}" == "Y" ]]; then
+    php -S localhost:$port_symfony -t public
+fi
+
+
 pause s 2 m
