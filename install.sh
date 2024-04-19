@@ -124,6 +124,7 @@ echo
 echo -e ' Lien pour ouvrir symfony (CTRL + clic): '
 echo -e "\e[1m\e[34mhttp://localhost:$port_symfony\e[0m"
 echo
+
 echo
 echo "---------------------------------"
 echo "Veux tu lancer le serveur symfony ? "
@@ -133,4 +134,6 @@ line -t ""
 if [[ "${val^^}" == "Y" ]]; then
     php -S localhost:$port_symfony -t public
 fi
+
+
 pause s 2 m
