@@ -50,6 +50,9 @@ composer create-project symfony/skeleton:"$version_symfony" .
 pause s 1 m
 composer require webapp --quiet
 
+pause s 2 m
+composer require "symfony/var-exporter:7.0.4"
+
 pause s 1 m
 echo " ** Installation effectué**"
 echo
@@ -64,8 +67,14 @@ source "$layout/script-compose.sh"
 echo "** Fichier compose.yaml est prêt **"
 echo
 
-source "$layout/buildnews.sh"
+echo "Voulez-vous générer Docker ? "
+read -n 1 -rp $'\e[31m\e[1m[Y]\e[0mes / \e[31m\e[1m[N]\e[0mo (is default) > ' val_bd
+line
+line -t ""
 
+if [[ "${val^^}" == "Y" ]]; then
+    source "$layout/buildnews.sh"
+fi
 cd $folder_rel_serveur
 
 pause s 5 m
